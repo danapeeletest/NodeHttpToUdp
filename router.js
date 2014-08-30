@@ -3,32 +3,28 @@ var config = require('./config');
 var server = config.udp.servername;
 var port = config.udp.port;
 
-function route(pathname, message) {
-    switch(pathname) {
+function route(url, message) {
+    switch(url) {
         case '/sendUdpMessage':
-            sendUdpMessage(message);
+            sendUdpMessage(message.split("\n"));
             break;       
     }
 }
 
-function sendUdpMessage(message) {
-    if (message != null) {
-        var messageBuffer = null;
-        var client = dgram.createSocket('udp4');
-        var messages = message.split("\\n");
-        for (var index = 0; index < messages.length; index++) {
-	    if (messages[index].length > 0) {
-                console.log('Sending ' + messages[index] + ' to ' + server + ':' + port);
-                messageBuffer = new Buffer(messages[index]);
-                client.send(messageBuffer, 0, messageBuffer.length, port, server, function (err, bytes) {
-                    if (err) {
-                        console.log('Error: ' + err);
-                    } 
-                });
-	    }
-        }
+function sendUdpMessage(messages) {
+    var messageBuffer = new Buffer(messages[0]);
+    var client = dgram.createSocket('udp4');
+    client.send(messageBuffer, 0, messageBuffer.length, port, server, function (err, bytes) {
         client.close();
-    }
+        if (err) {
+            console.log('Error: ' + err);
+        } else { 
+            console.log('Sent ' + messageBuffer.toString() + ' to ' + server + ':' + port);
+            if (messages.length > 1) {
+                sendUdpMessage(messages.slice(1,messages.length));
+            }
+        }
+    });
 }
 
 exports.route = route;
