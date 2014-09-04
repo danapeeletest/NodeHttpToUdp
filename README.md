@@ -16,10 +16,9 @@ Setup
 Usage
 ------------
 
-- Send messages to the server by passing the parameter "message" containing the message text
-- Example: http://localhost:8888/sendUdpMessage?message=foo2:1.25|c
+- Send messages to the server by passing them in the body of a POST request 
+- URL: http://localhost:8888/sendUdpMessage
 - You can send multiple messages to the node server by separating them with the newline character ("\n")
-- Example: http://localhost:8888/sendUdpMessage?message=foo2:1.25|c\nbar4:5.5|c
 
 Logging
 -------------
