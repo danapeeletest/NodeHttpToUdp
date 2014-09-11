@@ -4,10 +4,12 @@ var async = require('async');
 var server = config.udp.servername;
 var port = config.udp.port;
 
-function route(url, message) {
+function route(url, httpVerb, message) {
     switch(url) {
         case '/sendUdpMessage':
-            sendUdpMessage(message.split("\n"));
+            if (httpVerb === "POST" && message) {
+                sendUdpMessage(message.split("\n"));
+            }
             break;       
     }
 }
