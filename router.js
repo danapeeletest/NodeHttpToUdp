@@ -1,25 +1,36 @@
 var dgram = require('dgram');
 var config = require('./config');
+var async = require('async');
 var server = config.udp.servername;
 var port = config.udp.port;
 
-function route(url_parts) {
-    switch(url_parts.pathname) {
+function route(url, message) {
+    switch(url) {
         case '/sendUdpMessage':
-            sendUdpMessage(url_parts.query.message);
+            sendUdpMessage(message.split("\n"));
             break;       
     }
 }
 
-function sendUdpMessage(message) {
-    var messageBuffer = new Buffer(message);
-    var client = dgram.createSocket('udp4');
-    console.log('Sending ' + message + ' to ' + server + ':' + port);
-    client.send(messageBuffer, 0, messageBuffer.length, port, server, function (err, bytes) {
-        if (err) {
-            console.log('Error: ' + err);
-        } 
-        client.close();
+function sendUdpMessage(messages) {
+    async.mapSeries(messages, function (message, callback) {
+        var messageBuffer = new Buffer(message);
+        var client = dgram.createSocket('udp4');
+        client.send(messageBuffer, 0, messageBuffer.length, port, server, function (err, bytes) {
+            client.close();
+            if (err) {
+                console.log('Error: ' + err);
+            } else { 
+                console.log('Sent ' + message + ' to ' + server + ':' + port);
+            }
+	    callback(err, message);
+        });
+    }, function (err, transformed) {
+            if (err) {
+                console.log('Error: ' + err);
+            } else { 
+                console.log('Sent all message successfully at ' + new Date());
+            }
     });
 }
 
