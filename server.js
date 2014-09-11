@@ -11,7 +11,7 @@ function start (route) {
             message += data;
         });
         request.on('end', function () {
-	    route(pathname, message);    
+	    route(pathname, request.method, message);    
         });
         response.writeHead(200, {'Content-Type': 'text/plain'});
         response.write('Message Received: ' + request.url);
