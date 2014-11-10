@@ -11,7 +11,8 @@ Setup
   
 - Clone this repository
 - Configure the listener port and the UDP host and port in the config.js file (NOTE- Demandware has a firewall which prevents outgoing HTTP requests to any port except 80. If you want to use another port then you need to make a request to Demandware support to open that port.)
-- Start the server: nohup node index.js > httpToUdp.log &
+- Run npm install
+- Start the server: node index.js 2>&1 | node_modules/logrotate-stream/bin/logrotate-stream NodeHttpToUdp.log --keep 40 --size '50m' --compress &
 
 Usage
 ------------
