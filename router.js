@@ -8,7 +8,7 @@ function route(url, httpVerb, message) {
     switch(url) {
         case '/sendUdpMessage':
             if (httpVerb === "POST" && message) {
-                sendUdpMessage(message.split("\n"));
+                sendUdpMessage(message.split("\\n"));
             }
             break;       
     }
