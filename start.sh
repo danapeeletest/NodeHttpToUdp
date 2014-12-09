@@ -12,6 +12,5 @@ ROTATE_CMD=$RUN_DIR/node_modules/logrotate-stream/bin/logrotate-stream
 set +x
 cd $RUN_DIR
 $NODE_CMD index.js 2>&1 | $ROTATE_CMD $LOG_DIR/NodeHttpToUdp.log --keep 40 --size '50m' --compress &
-echo $! > $!.pid
 echo "NodeHttpToUdp Started"
 echo "Log Directory $LOG_DIR/NodeHttpToUdp.log"
