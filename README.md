@@ -5,6 +5,11 @@ Purpose
 --------------
 
 This server is meant to run in conjunction with a UDP server. It's purpose is to receive HTTP requests on the specified port and send them via UDP to the UDP server at the specified host and port.
+Requirements
+--------------
+NodeJs installed
+Java JDK
+internet access
 
 Setup
 --------------

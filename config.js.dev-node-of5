@@ -8,7 +8,7 @@ config.java.configDir='./metrics/config';
 
 //the port for the node server to listen on
 config.http={};
-config.http.port = '8130';
+config.http.port = '8128';
 //config.http.port = '80';
 
 module.exports = config;
